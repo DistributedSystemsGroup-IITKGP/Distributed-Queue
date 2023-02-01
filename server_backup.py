@@ -114,7 +114,7 @@ async def enqueue():
     while not log_lock:
         time.sleep(1)
     log_lock = False
-    log_queue.enqueue(topic_name, log_message)
+    log_queue.enqueue(topic_name, log_message, )
     async with async_session() as session, session.begin():
         db_dal = DAL(session)
         await db_dal.enqueue(topic_name, producer_id, log_message)

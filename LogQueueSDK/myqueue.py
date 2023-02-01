@@ -261,6 +261,7 @@ class Consumer(Client):
 
             r = requests.get(url = self.broker + '/consumer/consume', json = params)
             response = r.json()
+            status = response['status']
             if response['status'] == 'success':
                 return response['log_message']
         return None

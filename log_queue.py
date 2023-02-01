@@ -22,7 +22,6 @@ class InMemoryLogQueue:
 		
 	def enqueue(self, topic_name, log_message):
 		self.queue[topic_name].append(log_message)
-
 		return 1
 
 	def dequeue(self, topic_name, consumer_id):
