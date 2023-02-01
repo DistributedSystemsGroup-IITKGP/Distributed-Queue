@@ -44,14 +44,12 @@ class DAL():
 				consumersDict[consumer.consumer_id] = topicNamesDict[consumer.topic_id]
 			
 			for log in logs:
-				queryLog = await self.db_session.execute(select(Topic).filter_by(topic_id = log.topic_id))
-				topic = queryLog.scalar()
-				logQueue.enqueue(topic.topic_name, log.log_msg)
+				logQueue.enqueue(topicNamesDict[log.topic_id], log.log_msg)
+
 			for producer in producers:
-				queryLog = await self.db_session.execute(select(Topic).filter_by(topic_id = producer.topic_id))
-				topic = queryLog.scalar()
 				logQueue.register_producer(producer.producer_id, topic.topic_name)
-				producersDict[producer.producer_id] = topic.topic_name
+				producersDict[producer.producer_id] = topicNamesDict[producer.topic_id]
+				
 		finally:
 			return logQueue, topicsDict, consumersDict, producersDict
 
