@@ -4,7 +4,7 @@ import threading
 import pandas as pd
 import time
 
-path = os.path.abspath('.')+ '/LogQueueSDK/myqueue.py'
+path = os.path.abspath('..') + '/Distributed-Queue/LogQueueSDK/myqueue.py'
 sdkSourceFile = SourceFileLoader("myqueue",path).load_module()
 
 def producerTest(fileName):
@@ -35,15 +35,15 @@ def consumerTest(topics):
     broker = "localhost:5000"
     consumer = sdkSourceFile.Consumer(broker, topics)
 
-    time.sleep(1)
-    counter = 0
-    
     while True:
-        res = consumer.get_next()
-        if res is None:
-            break
-        print("Consumer Message - {}".format(res))
-        
+        time.sleep(1)
+        counter = 0
+
+        while True:
+            res = consumer.get_next()
+            if res is None:
+                break
+            print("Consumer Message - {}".format(res))
     consumer.stop()
 
 def runProducers():
